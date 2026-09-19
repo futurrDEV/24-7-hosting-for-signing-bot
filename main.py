@@ -6,6 +6,8 @@ import threading
 from server import start as start_server
 from signings import start_signing
 from server import start as start_server
+threading.Thread(target=start_server).start()
+
 
 
 load_dotenv()

@@ -49,3 +49,4 @@ async def start_signing(ctx, player, extra):
     await player.add_roles(club_role)
 
     await ctx.send(f"Signing complete! {player.mention} is now signed to {club_role.name}.")
+

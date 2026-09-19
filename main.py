@@ -2,10 +2,15 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+import threading
+from server import start as start_server
 from signings import start_signing
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
+
+# Start the fake web server for Render free hosting
+threading.Thread(target=start_server).start()
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=None, intents=intents)  # NO PREFIX
@@ -38,9 +43,3 @@ async def on_message(message):
     await bot.process_commands(message)
 
 bot.run(TOKEN)
-
-
-
-
-
-

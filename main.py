@@ -1,22 +1,43 @@
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+from signings import start_signing
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix=None, intents=intents)  # NO PREFIX
 
-from signings import start_signing
+@bot.event
+async def on_message(message):
+    if message.author.bot:
+        return
 
-@bot.command()
-async def sign(ctx, member: discord.Member, *, extra=None):
-    await start_signing(ctx, member, extra)
+    # Detect "sign" at the start
+    if message.content.lower().startswith("sign"):
+        ctx = await bot.get_context(message)
+
+        # Must mention a player
+        if len(message.mentions) == 0:
+            return await message.channel.send("You must mention a player to sign.")
+
+        player = message.mentions[0]
+
+        # Extract extra text
+        extra = (
+            message.content.lower()
+            .replace("sign", "")
+            .replace(player.mention.lower(), "")
+            .strip()
+        )
+
+        await start_signing(ctx, player, extra)
+
+    await bot.process_commands(message)
 
 bot.run(TOKEN)
-
 
 
 

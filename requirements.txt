@@ -1,6 +1,6 @@
-discord.py
-python-dotenv
 flask
 discord.py
 python-dotenv
+
+
 

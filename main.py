@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 import threading
 from server import start as start_server
 from signings import start_signing
+from server import start as start_server
+
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
